@@ -53,21 +53,37 @@ namespace DontEncrypt
 
         private void MainLoop()
         {
-            int hwnd = 0;
-            IntPtr hwndChild = IntPtr.Zero;
             while(true)
             {
-                hwnd = FindWindow("#32770", "McAfee Endpoint Encryption");
-                if (hwnd != 0)
-                {
-                    //Get a handle for the "No" button
-                    hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "&No");
-
-                    //send BN_CLICKED message
-                    if (hwndChild != IntPtr.Zero)
-                        SendMessage((int)hwndChild, BN_CLICKED, 0, IntPtr.Zero);
-                }
+                checkForMcAfee();
+                checkForNCRSecurityMessage();
                 System.Threading.Thread.Sleep(1000);
+            }
+        }
+
+        private void checkForMcAfee()
+        {
+            int hwnd = 0;
+            IntPtr hwndChild = IntPtr.Zero;
+            hwnd = FindWindow("#32770", "McAfee Endpoint Encryption");
+            if (hwnd != 0)
+            {
+                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "&No");
+                if (hwndChild != IntPtr.Zero)
+                    SendMessage((int)hwndChild, BN_CLICKED, 0, IntPtr.Zero);
+            }
+        }
+
+        private void checkForNCRSecurityMessage()
+        {
+            int hwnd = 0;
+            IntPtr hwndChild = IntPtr.Zero;
+            hwnd = FindWindow("#32770", "NCR Security Message");
+            if (hwnd != 0)
+            {
+                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "OK");
+                if (hwndChild != IntPtr.Zero)
+                    SendMessage((int)hwndChild, BN_CLICKED, 0, IntPtr.Zero);
             }
         }
 
