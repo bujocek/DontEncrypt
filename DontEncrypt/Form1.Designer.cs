@@ -1,4 +1,4 @@
-﻿namespace DontEncrypt
+﻿namespace NCRWindowHelper
 {
     partial class Form1
     {

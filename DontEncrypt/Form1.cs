@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Data;
 using System.Runtime.InteropServices;
 
-namespace DontEncrypt
+namespace NCRWindowHelper
 {
     public partial class Form1 : Form
     {
