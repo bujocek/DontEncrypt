@@ -1,5 +1,6 @@
 # NCR-WindowHelper 
 (previously named as DontEncrypt)
+
 Runs in background and automaticaly clicks following buttons:
   "No" in McAfee dialog asking about whether you want to encrypt new drive
   "OK" in NCR security message
