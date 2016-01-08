@@ -57,6 +57,7 @@ namespace NCRWindowHelper
             {
                 checkForMcAfee();
                 checkForNCRSecurityMessage();
+                checkForRestartAfterUpdateDialog();
                 System.Threading.Thread.Sleep(1000);
             }
         }
@@ -84,6 +85,33 @@ namespace NCRWindowHelper
                 hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "OK");
                 if (hwndChild != IntPtr.Zero)
                     SendMessage((int)hwndChild, BN_CLICKED, 0, IntPtr.Zero);
+            }
+        }
+
+        private void checkForRestartAfterUpdateDialog()
+        {
+            int hwnd = 0;
+            IntPtr hwndChild = IntPtr.Zero;
+            IntPtr hwndButton = IntPtr.Zero;
+            IntPtr hwndSomethingOverButton = IntPtr.Zero;
+            hwnd = FindWindow("#32770", "Windows Update");
+            if (hwnd != 0)
+            {
+                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "DirectUIHWND", null);
+                if (hwndChild != IntPtr.Zero)
+                {
+                    hwndSomethingOverButton = FindWindowEx((IntPtr)hwndChild, IntPtr.Zero, "CtrlNotifySink", null);
+                    while (hwndSomethingOverButton != IntPtr.Zero)
+                    {
+                        hwndButton = FindWindowEx((IntPtr)hwndSomethingOverButton, IntPtr.Zero, "Button", "&Postpone");
+                        if (hwndButton != IntPtr.Zero)
+                        { 
+                            SendMessage((int)hwndButton, BN_CLICKED, 0, IntPtr.Zero);
+                            break;
+                        }
+                        hwndSomethingOverButton = FindWindowEx((IntPtr)hwndChild, hwndSomethingOverButton, "CtrlNotifySink", null);
+                    }
+                }
             }
         }
 
