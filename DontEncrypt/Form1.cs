@@ -58,7 +58,21 @@ namespace NCRWindowHelper
                 checkForMcAfee();
                 checkForNCRSecurityMessage();
                 checkForRestartAfterUpdateDialog();
+                //checkForUnspecifiedError();
                 System.Threading.Thread.Sleep(1000);
+            }
+        }
+
+        private void checkForUnspecifiedError()
+        {
+            int hwnd = 0;
+            IntPtr hwndChild = IntPtr.Zero;
+            hwnd = FindWindow("#32770", "Microsoft Visual Studio");
+            if (hwnd != 0)
+            {
+                hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "OK");
+                if (hwndChild != IntPtr.Zero)
+                    SendMessage((int)hwndChild, BN_CLICKED, 0, IntPtr.Zero);
             }
         }
 
@@ -67,6 +81,8 @@ namespace NCRWindowHelper
             int hwnd = 0;
             IntPtr hwndChild = IntPtr.Zero;
             hwnd = FindWindow("#32770", "McAfee Endpoint Encryption");
+            if (hwnd == 0)
+                hwnd = FindWindow("#32770", "McAfee File and Removable Media Protection");
             if (hwnd != 0)
             {
                 hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "&No");
@@ -80,6 +96,8 @@ namespace NCRWindowHelper
             int hwnd = 0;
             IntPtr hwndChild = IntPtr.Zero;
             hwnd = FindWindow("#32770", "NCR Security Message");
+            if (hwnd == 0)
+                hwnd = FindWindow("#32770", "NCR USB Usage Warning");
             if (hwnd != 0)
             {
                 hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "OK");
