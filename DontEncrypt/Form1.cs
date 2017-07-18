@@ -59,7 +59,7 @@ namespace NCRWindowHelper
                 checkForNCRSecurityMessage();
                 checkForRestartAfterUpdateDialog();
                 //checkForUnspecifiedError();
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(500);
             }
         }
 
@@ -68,11 +68,12 @@ namespace NCRWindowHelper
             int hwnd = 0;
             IntPtr hwndChild = IntPtr.Zero;
             hwnd = FindWindow("#32770", "Microsoft Visual Studio");
-            if (hwnd != 0)
+            while (hwnd != 0)
             {
                 hwndChild = FindWindowEx((IntPtr)hwnd, IntPtr.Zero, "Button", "OK");
                 if (hwndChild != IntPtr.Zero)
                     SendMessage((int)hwndChild, BN_CLICKED, 0, IntPtr.Zero);
+                hwnd = FindWindowEx(IntPtr.Zero, (IntPtr)hwnd, "#32770", "Microsoft Visual Studio").ToInt32();
             }
         }
 
